@@ -5,13 +5,12 @@
 
 ## Changed
 
-- **CCPhysicsManager:**
+**CCPhysicsManager:**
+<summary> function `update` [172] </summary>
+    <details>
+    <summary> FROM </summary>
 
-    <summary> function `update` [172] </summary>
-        <details>
-        <summary> FROM </summary>
-
-            update: function (dt) {
+        update: function (dt) {
                 var world = this._world;
                 if (!world || !this.enabled) return;
 
@@ -61,8 +60,7 @@
                 this._syncNode();
             },
 
-    </details>
-
+</details>
     <details>
     <summary> TO </summary>
 
@@ -170,13 +168,13 @@
     </details>
 </details>
 
-- **CCRigidBody:**
+**CCRigidBody:**
 
-    <summary> properties </summary>
-        <details>
-        <summary> ADDED </summary>
+<summary> properties </summary>
+    <details>
+    <summary> ADDED </summary>
 
-            sync_position: {
+        sync_position: {
                 get: function() {
                     return this._sync_position_;
                 },
@@ -196,8 +194,7 @@
                 tooltip: CC_DEV && 'i18n:COMPONENT.physics.rigidbody.sync_rotation'
             },
 
-    </details>
-
+</details>
     <details>
     <summary> function `update` </summary>
 
@@ -206,12 +203,11 @@
             if(this.sync_rotation) this.syncRotation(this.type === BodyType.Animated)
         },
 
-    </details>
+</details>
 
-- **CCComponent:**
+**CCComponent:**
 
-    <summary> function [224] </summary>
-
+<summary> function [224] </summary>
     <details>
     <summary> ADDED </summary>
 
@@ -221,11 +217,11 @@
             this.onChange && this.onChange();
         },
 
-    </details>
+</details>
 
-- **CCRendererComponent:**
+**CCRendererComponent:**
 
-    <summary> set function [69] </summary>
+<summary> set function [69] </summary>
     <details>
     <summary> FROM </summary>
 
@@ -242,8 +238,7 @@
             animatable: false
         }
 
-    </details>
-
+</details>
     <details>
     <summary> TO </summary>
 
@@ -261,6 +256,6 @@
             animatable: false
         }
 
-    </details>
+</details>
 
 
