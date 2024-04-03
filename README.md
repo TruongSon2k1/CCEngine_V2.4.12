@@ -7,233 +7,227 @@
 
 - **CCPhysicsManager:**
 
-<details>
-<summary> function `update` </summary>
+    <summary> function `update` [172] </summary>
+        <details>
+        <summary> FROM </summary>
 
-<details>
-<summary> FROM </summary>
+            update: function (dt) {
+                var world = this._world;
+                if (!world || !this.enabled) return;
 
-    update: function (dt) {
-            var world = this._world;
-            if (!world || !this.enabled) return;
+                this.emit('before-step');
 
-            this.emit('before-step');
+                this._steping = true;
 
-            this._steping = true;
+                var velocityIterations = PhysicsManager.VELOCITY_ITERATIONS;
+                var positionIterations = PhysicsManager.POSITION_ITERATIONS;
 
-            var velocityIterations = PhysicsManager.VELOCITY_ITERATIONS;
-            var positionIterations = PhysicsManager.POSITION_ITERATIONS;
+                if (this.enabledAccumulator) {
+                    this._accumulator += dt;
 
-            if (this.enabledAccumulator) {
-                this._accumulator += dt;
+                    var FIXED_TIME_STEP = PhysicsManager.FIXED_TIME_STEP;
+                    var MAX_ACCUMULATOR = PhysicsManager.MAX_ACCUMULATOR;
 
-                var FIXED_TIME_STEP = PhysicsManager.FIXED_TIME_STEP;
-                var MAX_ACCUMULATOR = PhysicsManager.MAX_ACCUMULATOR;
+                    // max accumulator time to avoid spiral of death
+                    if (this._accumulator > MAX_ACCUMULATOR) {
+                        this._accumulator = MAX_ACCUMULATOR;
+                    }
 
-                // max accumulator time to avoid spiral of death
-                if (this._accumulator > MAX_ACCUMULATOR) {
-                    this._accumulator = MAX_ACCUMULATOR;
+                    while (this._accumulator > FIXED_TIME_STEP) {
+                        world.Step(FIXED_TIME_STEP, velocityIterations, positionIterations);
+                        this._accumulator -= FIXED_TIME_STEP;
+                    }
+                }
+                else {
+                    var timeStep = dt;
+                    world.Step(timeStep, velocityIterations, positionIterations);
                 }
 
-                while (this._accumulator > FIXED_TIME_STEP) {
-                    world.Step(FIXED_TIME_STEP, velocityIterations, positionIterations);
-                    this._accumulator -= FIXED_TIME_STEP;
-                }
-            }
-            else {
-                var timeStep = dt;
-                world.Step(timeStep, velocityIterations, positionIterations);
-            }
-
-            if (this.debugDrawFlags) {
-                this._checkDebugDrawValid();
-                this._debugDrawer.clear();
-                world.DrawDebugData();
-            }
-
-            this._steping = false;
-
-            var events = this._delayEvents;
-            for (var i = 0, l = events.length; i < l; i++) {
-                var event = events[i];
-                event.target[event.func].apply(event.target, event.args);
-            }
-            events.length = 0;
-
-            this._syncNode();
-        },
-
-</details>
-
-<details>
-<summary> TO </summary>
-
-    update: window['__pts_moded_mode__'] == undefined ?
-        function (dt) {
-            var world = this._world;
-            if (!world || !this.enabled) return;
-
-            this.emit('before-step');
-
-            this._steping = true;
-
-            var velocityIterations = PhysicsManager.VELOCITY_ITERATIONS;
-            var positionIterations = PhysicsManager.POSITION_ITERATIONS;
-
-            if (this.enabledAccumulator) {
-                this._accumulator += dt;
-
-                var FIXED_TIME_STEP = PhysicsManager.FIXED_TIME_STEP;
-                var MAX_ACCUMULATOR = PhysicsManager.MAX_ACCUMULATOR;
-
-                // max accumulator time to avoid spiral of death
-                if (this._accumulator > MAX_ACCUMULATOR) {
-                    this._accumulator = MAX_ACCUMULATOR;
+                if (this.debugDrawFlags) {
+                    this._checkDebugDrawValid();
+                    this._debugDrawer.clear();
+                    world.DrawDebugData();
                 }
 
-                while (this._accumulator > FIXED_TIME_STEP) {
-                    world.Step(FIXED_TIME_STEP, velocityIterations, positionIterations);
-                    this._accumulator -= FIXED_TIME_STEP;
+                this._steping = false;
+
+                var events = this._delayEvents;
+                for (var i = 0, l = events.length; i < l; i++) {
+                    var event = events[i];
+                    event.target[event.func].apply(event.target, event.args);
                 }
-            }
-            else {
-                var timeStep = dt;
-                world.Step(timeStep, velocityIterations, positionIterations);
-            }
+                events.length = 0;
 
-            if (this.debugDrawFlags) {
-                this._checkDebugDrawValid();
-                this._debugDrawer.clear();
-                world.DrawDebugData();
-            }
+                this._syncNode();
+            },
 
-            this._steping = false;
+    </details>
 
-            var events = this._delayEvents;
-            for (var i = 0, l = events.length; i < l; i++) {
-                var event = events[i];
-                event.target[event.func].apply(event.target, event.args);
-            }
-            events.length = 0;
+    <details>
+    <summary> TO </summary>
 
-            this._syncNode();
-        }
-        :
-        function (dt) {
-            var world = this._world;
-            if (!world || !this.enabled) return;
+        update: window['__pts_moded_mode__'] == undefined ?
+            function (dt) {
+                var world = this._world;
+                if (!world || !this.enabled) return;
 
-            this.emit('before-step');
+                this.emit('before-step');
 
-            this._steping = true;
+                this._steping = true;
 
-            var velocityIterations = PhysicsManager.VELOCITY_ITERATIONS;
-            var positionIterations = PhysicsManager.POSITION_ITERATIONS;
+                var velocityIterations = PhysicsManager.VELOCITY_ITERATIONS;
+                var positionIterations = PhysicsManager.POSITION_ITERATIONS;
 
-            if (this.enabledAccumulator) {
-                this._accumulator += dt;
+                if (this.enabledAccumulator) {
+                    this._accumulator += dt;
 
-                var FIXED_TIME_STEP = PhysicsManager.FIXED_TIME_STEP;
-                var MAX_ACCUMULATOR = PhysicsManager.MAX_ACCUMULATOR;
+                    var FIXED_TIME_STEP = PhysicsManager.FIXED_TIME_STEP;
+                    var MAX_ACCUMULATOR = PhysicsManager.MAX_ACCUMULATOR;
 
-                // max accumulator time to avoid spiral of death
-                if (this._accumulator > MAX_ACCUMULATOR) {
-                    this._accumulator = MAX_ACCUMULATOR;
+                    // max accumulator time to avoid spiral of death
+                    if (this._accumulator > MAX_ACCUMULATOR) {
+                        this._accumulator = MAX_ACCUMULATOR;
+                    }
+
+                    while (this._accumulator > FIXED_TIME_STEP) {
+                        world.Step(FIXED_TIME_STEP, velocityIterations, positionIterations);
+                        this._accumulator -= FIXED_TIME_STEP;
+                    }
+                }
+                else {
+                    var timeStep = dt;
+                    world.Step(timeStep, velocityIterations, positionIterations);
                 }
 
-                while (this._accumulator > FIXED_TIME_STEP) {
-                    world.Step(FIXED_TIME_STEP, velocityIterations, positionIterations);
-                    this._accumulator -= FIXED_TIME_STEP;
+                if (this.debugDrawFlags) {
+                    this._checkDebugDrawValid();
+                    this._debugDrawer.clear();
+                    world.DrawDebugData();
                 }
+
+                this._steping = false;
+
+                var events = this._delayEvents;
+                for (var i = 0, l = events.length; i < l; i++) {
+                    var event = events[i];
+                    event.target[event.func].apply(event.target, event.args);
+                }
+                events.length = 0;
+
+                this._syncNode();
             }
-            else {
-                var timeStep = dt;
-                world.Step(timeStep, velocityIterations, positionIterations);
-            }
+            :
+            function (dt) {
+                var world = this._world;
+                if (!world || !this.enabled) return;
 
-            if (this.debugDrawFlags) {
-                this._checkDebugDrawValid();
-                this._debugDrawer.clear();
-                world.DrawDebugData();
-            }
+                this.emit('before-step');
 
-            this._steping = false;
+                this._steping = true;
 
-            var events = this._delayEvents;
-            for (var i = 0, l = events.length; i < l; i++) {
-                var event = events[i];
-                event.target[event.func].apply(event.target, event.args);
-            }
-            events.length = 0;
+                var velocityIterations = PhysicsManager.VELOCITY_ITERATIONS;
+                var positionIterations = PhysicsManager.POSITION_ITERATIONS;
 
-            this._syncNode();
-        },
+                if (this.enabledAccumulator) {
+                    this._accumulator += dt;
 
-</details>
+                    var FIXED_TIME_STEP = PhysicsManager.FIXED_TIME_STEP;
+                    var MAX_ACCUMULATOR = PhysicsManager.MAX_ACCUMULATOR;
+
+                    // max accumulator time to avoid spiral of death
+                    if (this._accumulator > MAX_ACCUMULATOR) {
+                        this._accumulator = MAX_ACCUMULATOR;
+                    }
+
+                    while (this._accumulator > FIXED_TIME_STEP) {
+                        world.Step(FIXED_TIME_STEP, velocityIterations, positionIterations);
+                        this._accumulator -= FIXED_TIME_STEP;
+                    }
+                }
+                else {
+                    var timeStep = dt;
+                    world.Step(timeStep, velocityIterations, positionIterations);
+                }
+
+                if (this.debugDrawFlags) {
+                    this._checkDebugDrawValid();
+                    this._debugDrawer.clear();
+                    world.DrawDebugData();
+                }
+
+                this._steping = false;
+
+                var events = this._delayEvents;
+                for (var i = 0, l = events.length; i < l; i++) {
+                    var event = events[i];
+                    event.target[event.func].apply(event.target, event.args);
+                }
+                events.length = 0;
+
+                this._syncNode();
+            },
+
+    </details>
 </details>
 
 - **CCRigidBody:**
 
-<summary> properties </summary>
+    <summary> properties </summary>
+        <details>
+        <summary> ADDED </summary>
 
-<details>
-<summary> ADDED </summary>
+            sync_position: {
+                get: function() {
+                    return this._sync_position_;
+                },
+                set: function() {
+                },
+                default: false,
+                tooltip: CC_DEV && 'i18n:COMPONENT.physics.rigidbody.sync_position'
+            },
 
-        sync_position: {
-            get: function() {
-                return this._sync_position_;
+            sync_rotation: {
+                get: function() {
+                    return this._sync_rotation_;
+                },
+                set: function() {
+                },
+                default: false,
+                tooltip: CC_DEV && 'i18n:COMPONENT.physics.rigidbody.sync_rotation'
             },
-            set: function() {
-            },
-            default: false,
-            tooltip: CC_DEV && 'i18n:COMPONENT.physics.rigidbody.sync_position'
+
+    </details>
+
+    <details>
+    <summary> function `update` </summary>
+
+        update: function() {
+            if(this.sync_position) this.syncPosition(this.type === BodyType.Animated)
+            if(this.sync_rotation) this.syncRotation(this.type === BodyType.Animated)
         },
 
-        sync_rotation: {
-            get: function() {
-                return this._sync_rotation_;
-            },
-            set: function() {
-            },
-            default: false,
-            tooltip: CC_DEV && 'i18n:COMPONENT.physics.rigidbody.sync_rotation'
-        },
-
-</details>
-
-<details>
-<summary> function `update` </summary>
-
-    update: function() {
-        if(this.sync_position) this.syncPosition(this.type === BodyType.Animated)
-        if(this.sync_rotation) this.syncRotation(this.type === BodyType.Animated)
-    },
-
-</details>
+    </details>
 
 - **CCComponent:**
 
-<summary> function [224] </summary>
+    <summary> function [224] </summary>
 
-<details>
-<summary> ADDED </summary>
+    <details>
+    <summary> ADDED </summary>
 
-    onChange: null,
+        onChange: null,
 
-    _executeOnChange() {
-        this.onChange && this.onChange();
-    },
+        _executeOnChange() {
+            this.onChange && this.onChange();
+        },
 
-</details>
-
-</details>
+    </details>
 
 - **CCRendererComponent:**
 
-<summary> set function [69] </summary>
-
-<details>
-<summary> FROM </summary>
+    <summary> set function [69] </summary>
+    <details>
+    <summary> FROM </summary>
 
         materials: {
             get () {
@@ -248,10 +242,10 @@
             animatable: false
         }
 
-</details>
+    </details>
 
-<details>
-<summary> TO </summary>
+    <details>
+    <summary> TO </summary>
 
         materials: {
             get () {
@@ -267,5 +261,6 @@
             animatable: false
         }
 
+    </details>
 
-</details>
+
