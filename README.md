@@ -174,7 +174,6 @@
 
 - **CCRigidBody:**
 
-<details>
 <summary> properties </summary>
 
 <details>
@@ -212,11 +211,8 @@
 
 </details>
 
-</details>
+- **CCComponent:**
 
--- **CCComponent:**
-
-<details>
 <summary> function [224] </summary>
 
 <details>
@@ -232,9 +228,8 @@
 
 </details>
 
--- **CCRendererComponent:**
+- **CCRendererComponent:**
 
-<details>
 <summary> set function [69] </summary>
 
 <details>
@@ -272,6 +267,5 @@
             animatable: false
         }
 
-</details>
 
 </details>
